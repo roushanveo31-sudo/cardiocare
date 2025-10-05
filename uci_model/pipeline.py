@@ -113,9 +113,12 @@ def main():
 
     # --- Save the Final Model and Scaler ---
     print("\n--- Saving the final model and scaler ---")
-    joblib.dump(stacking_model, 'best_heart_disease_model.joblib')
-    joblib.dump(scaler, 'main_scaler.joblib')
-    print("Model and scaler saved successfully as 'best_heart_disease_model.joblib' and 'main_scaler.joblib'.")
+    import os
+    joblib.dump(stacking_model, 'uci_model/best_heart_disease_model.joblib')
+    joblib.dump(scaler, 'uci_model/main_scaler.joblib')
+    print("Model and scaler saved successfully to the 'uci_model/' directory.")
+    print("\nVerifying saved files...")
+    print(os.listdir('uci_model/'))
 
     print("\n===== Pipeline finished successfully. =====")
 
