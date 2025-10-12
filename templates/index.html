@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Health Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Health Prediction Center</h1>
+        <p>Select one of the models below to get a prediction. Please fill in the required information as accurately as possible.</p>
+
+        <!-- Prediction Result Display Area -->
+        <div id="result-container" class="result-container">
+            {% if result %}
+                <h2>Prediction Result</h2>
+                <p>{{ result }}</p>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- Heart Disease Prediction Form -->
+        <div class="form-container">
+            <h2>1. General Heart Disease Prediction</h2>
+            <form action="/predict_disease" method="post">
+                <div class="form-grid">
+                    <input type="number" name="age" placeholder="Age (years)" required>
+                    <select name="gender" required>
+                        <option value="1">Female</option>
+                        <option value="2">Male</option>
+                    </select>
+                    <input type="number" name="height" placeholder="Height (cm)" required>
+                    <input type="number" name="weight" placeholder="Weight (kg)" step="0.1" required>
+                    <input type="number" name="ap_hi" placeholder="Systolic Blood Pressure (ap_hi)" required>
+                    <input type="number" name="ap_lo" placeholder="Diastolic Blood Pressure (ap_lo)" required>
+                    <select name="cholesterol" required>
+                        <option value="1">Normal Cholesterol</option>
+                        <option value="2">Above Normal Cholesterol</option>
+                        <option value="3">Well Above Normal Cholesterol</option>
+                    </select>
+                    <select name="gluc" required>
+                        <option value="1">Normal Glucose</option>
+                        <option value="2">Above Normal Glucose</option>
+                        <option value="3">Well Above Normal Glucose</option>
+                    </select>
+                    <select name="smoke" required>
+                        <option value="0">Non-Smoker</option>
+                        <option value="1">Smoker</option>
+                    </select>
+                    <select name="alco" required>
+                        <option value="0">No Alcohol</option>
+                        <option value="1">Consumes Alcohol</option>
+                    </select>
+                    <select name="active" required>
+                        <option value="1">Physically Active</option>
+                        <option value="0">Not Physically Active</option>
+                    </select>
+                </div>
+                <button type="submit">Predict Heart Disease</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- Heart Failure Prediction Form -->
+        <div class="form-container">
+            <h2>2. Heart Failure Event Prediction</h2>
+            <p class="disclaimer">Note: This model requires clinical data that you may need to get from a healthcare provider.</p>
+            <form action="/predict_failure" method="post">
+                <div class="form-grid">
+                    <input type="number" name="age" placeholder="Age (years)" required>
+                    <input type="number" name="creatinine_phosphokinase" placeholder="Creatinine Phosphokinase (mcg/L)" required>
+                    <input type="number" name="ejection_fraction" placeholder="Ejection Fraction (%)" required>
+                    <input type="number" name="platelets" placeholder="Platelets (kiloplatelets/mL)" required>
+                    <input type="number" name="serum_creatinine" placeholder="Serum Creatinine (mg/dL)" step="0.1" required>
+                    <input type="number" name="serum_sodium" placeholder="Serum Sodium (mEq/L)" required>
+                    <select name="anaemia" required>
+                        <option value="0">No Anaemia</option>
+                        <option value="1">Has Anaemia</option>
+                    </select>
+                    <select name="diabetes" required>
+                        <option value="0">No Diabetes</option>
+                        <option value="1">Has Diabetes</option>
+                    </select>
+                    <select name="high_blood_pressure" required>
+                        <option value="0">No High Blood Pressure</option>
+                        <option value="1">Has High Blood Pressure</option>
+                    </select>
+                    <select name="sex" required>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                    <select name="smoking" required>
+                        <option value="0">Non-Smoker</option>
+                        <option value="1">Smoker</option>
+                    </select>
+                </div>
+                <button type="submit">Predict Heart Failure</button>
+            </form>
+        </div>
+
+        <hr>
+
+         <!-- Heart Attack Risk Form -->
+        <div class="form-container">
+            <h2>3. Heart Attack Risk Prediction</h2>
+            <form action="/predict_attack" method="post">
+                <div class="form-grid">
+                    <input type="number" name="Age" placeholder="Age" required>
+                    <select name="Gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <input type="number" name="Cholesterol_Level" placeholder="Cholesterol Level" required>
+                    <input type="number" name="Triglyceride_Level" placeholder="Triglyceride Level" required>
+                    <input type="number" name="LDL_Level" placeholder="LDL Level" required>
+                    <input type="number" name="HDL_Level" placeholder="HDL Level" required>
+                    <input type="number" name="Systolic_BP" placeholder="Systolic BP" required>
+                    <input type="number" name="Diastolic_BP" placeholder="Diastolic BP" required>
+                    <input type="number" name="Physical_Activity" placeholder="Physical Activity (hours/week)" required>
+                    <input type="number" name="Diet_Score" placeholder="Diet Score (1-10)" required>
+                    <input type="number" name="Stress_Level" placeholder="Stress Level (1-10)" required>
+                    <input type="number" name="Air_Pollution_Exposure" placeholder="Air Pollution Exposure" required>
+                    <input type="number" name="Emergency_Response_Time" placeholder="Emergency Response Time (mins)" required>
+                    <input type="number" name="Annual_Income" placeholder="Annual Income" required>
+                    <select name="Diabetes" required><option value="0">No Diabetes</option><option value="1">Has Diabetes</option></select>
+                    <select name="Hypertension" required><option value="0">No Hypertension</option><option value="1">Has Hypertension</option></select>
+                    <select name="Obesity" required><option value="0">Not Obese</option><option value="1">Is Obese</option></select>
+                    <select name="Smoking" required><option value="0">Non-Smoker</option><option value="1">Smoker</option></select>
+                    <select name="Alcohol_Consumption" required><option value="0">No Alcohol</option><option value="1">Consumes Alcohol</option></select>
+                    <select name="Family_History" required><option value="0">No Family History</option><option value="1">Has Family History</option></select>
+                    <select name="Healthcare_Access" required><option value="0">No Access</option><option value="1">Has Access</option></select>
+                    <select name="Heart_Attack_History" required><option value="0">No History</option><option value="1">Has History</option></select>
+                    <select name="Health_Insurance" required><option value="0">No Insurance</option><option value="1">Has Insurance</option></select>
+                </div>
+                <button type="submit">Predict Heart Attack Risk</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
