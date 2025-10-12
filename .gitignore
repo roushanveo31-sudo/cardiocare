@@ -1,0 +1,6 @@
+# Ignore saved model files
+*.joblib
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
