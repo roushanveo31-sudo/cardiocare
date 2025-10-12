@@ -18,6 +18,17 @@ def train_heart_failure_model():
         print("Error: heart_failure_clinical_records_dataset.csv not found. Make sure it's in the 'archive (2)/' directory.")
         return
 
+    # --- FIX: Remove the 'time' column ---
+    # This feature is a follow-up duration, not a predictive clinical measure a user would have.
+    # The model should not be trained on it for this application.
+    X = df.drop(columns=['DEATH_EVENT', 'time'])
+    y = df['DEATH_EVENT']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    model = XGBClassifier(n_estimators=100, random_state=42, use_label_encoder=False, eval_metric='logloss')
+    model.fit(X_train, y_train)
+
     # Define features and target
     X = df.drop(columns=['DEATH_EVENT'])
     y = df['DEATH_EVENT']
