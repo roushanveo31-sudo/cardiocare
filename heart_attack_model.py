@@ -1,0 +1,51 @@
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+import joblib
+
+def train_heart_attack_model():
+    """
+    Trains a heart attack risk prediction model using the heart_attack_prediction_india.csv dataset.
+    """
+    print("Training Heart Attack Risk Model...")
+
+    # Load the dataset
+    try:
+        df = pd.read_csv('archive (1)/heart_attack_prediction_india.csv')
+    except FileNotFoundError:
+        print("Error: heart_attack_prediction_india.csv not found. Make sure it's in the 'archive (1)/' directory.")
+        return
+
+    # Data Preprocessing
+    # Drop unnecessary columns
+    df = df.drop(columns=['Patient_ID', 'State_Name'])
+
+    # Handle categorical variables
+    label_encoder = LabelEncoder()
+    df['Gender'] = label_encoder.fit_transform(df['Gender'])
+
+    # Define features and target
+    X = df.drop(columns=['Heart_Attack_Risk'])
+    y = df['Heart_Attack_Risk']
+
+    # Split the data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train the model
+    model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    # Evaluate the model
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Heart Attack Risk Model Accuracy: {accuracy:.4f}")
+
+    # Save the model
+    joblib.dump(model, 'heart_attack_model.joblib')
+    print("Heart Attack Risk Model saved as heart_attack_model.joblib")
+
+if __name__ == '__main__':
+    train_heart_attack_model()
