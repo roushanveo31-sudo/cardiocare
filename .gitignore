@@ -1,4 +1,5 @@
 # Ignore saved model files and encoders
+# Ignore saved model files
 *.joblib
 
 # Ignore Python cache files
