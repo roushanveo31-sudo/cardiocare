@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Heart Disease Prediction Models</h1>
+
+    <!-- Model 1: Cardiovascular Disease -->
+    <div class="model-section">
+        <h2>Model 1: General Cardiovascular Disease</h2>
+        <form action="/predict_cardio" method="post">
+            <label>Age (years): <input type="number" name="age" required></label><br>
+            <label>Gender (1=female, 2=male): <input type="number" name="gender" required></label><br>
+            <label>Height (cm): <input type="number" name="height" required></label><br>
+            <label>Weight (kg): <input type="number" name="weight" step="0.1" required></label><br>
+            <label>Systolic Blood Pressure (ap_hi): <input type="number" name="ap_hi" required></label><br>
+            <label>Diastolic Blood Pressure (ap_lo): <input type="number" name="ap_lo" required></label><br>
+            <label>Cholesterol (1: normal, 2: above normal, 3: well above normal): <input type="number" name="cholesterol" required></label><br>
+            <label>Glucose (1: normal, 2: above normal, 3: well above normal): <input type="number" name="gluc" required></label><br>
+            <label>Smoker (0=no, 1=yes): <input type="number" name="smoke" required></label><br>
+            <label>Alcohol Intake (0=no, 1=yes): <input type="number" name="alco" required></label><br>
+            <label>Active (0=no, 1=yes): <input type="number" name="active" required></label><br>
+            <button type="submit">Predict Cardiovascular Disease</button>
+        </form>
+        {% if prediction_cardio %}
+            <div class="prediction">Result: {{ prediction_cardio }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Model 2: Heart Attack Risk -->
+    <div class="model-section">
+        <h2>Model 2: Heart Attack Risk (India)</h2>
+        <form action="/predict_heart_attack" method="post">
+            <label>Age: <input type="number" name="Age" required></label><br>
+            <label>Gender:
+                <select name="Gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </label><br>
+            <label>Diabetes (0=no, 1=yes): <input type="number" name="Diabetes" required></label><br>
+            <label>Hypertension (0=no, 1=yes): <input type="number" name="Hypertension" required></label><br>
+            <label>Obesity (0=no, 1=yes): <input type="number" name="Obesity" required></label><br>
+            <label>Smoking (0=no, 1=yes): <input type="number" name="Smoking" required></label><br>
+            <label>Alcohol Consumption (0=no, 1=yes): <input type="number" name="Alcohol_Consumption" required></label><br>
+            <label>Physical Activity (days/week): <input type="number" name="Physical_Activity" required></label><br>
+            <label>Diet Score (1-10): <input type="number" name="Diet_Score" required></label><br>
+            <label>Cholesterol Level: <input type="number" name="Cholesterol_Level" required></label><br>
+            <label>Triglyceride Level: <input type="number" name="Triglyceride_Level" required></label><br>
+            <label>LDL Level: <input type="number" name="LDL_Level" required></label><br>
+            <label>HDL Level: <input type="number" name="HDL_Level" required></label><br>
+            <label>Systolic BP: <input type="number" name="Systolic_BP" required></label><br>
+            <label>Diastolic BP: <input type="number" name="Diastolic_BP" required></label><br>
+            <label>Air Pollution Exposure: <input type="number" name="Air_Pollution_Exposure" required></label><br>
+            <label>Family History (0=no, 1=yes): <input type="number" name="Family_History" required></label><br>
+            <label>Stress Level (1-10): <input type="number" name="Stress_Level" required></label><br>
+            <label>Healthcare Access (0=no, 1=yes): <input type="number" name="Healthcare_Access" required></label><br>
+            <label>Heart Attack History (0=no, 1=yes): <input type="number" name="Heart_Attack_History" required></label><br>
+            <label>Emergency Response Time (mins): <input type="number" name="Emergency_Response_Time" required></label><br>
+            <label>Annual Income: <input type="number" name="Annual_Income" required></label><br>
+            <label>Health Insurance (0=no, 1=yes): <input type="number" name="Health_Insurance" required></label><br>
+            <button type="submit">Predict Heart Attack Risk</button>
+        </form>
+        {% if prediction_heart_attack %}
+            <div class="prediction">Result: {{ prediction_heart_attack }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Model 3: Heart Disease Diagnosis -->
+    <div class="model-section">
+        <h2>Model 3: Heart Disease Diagnosis (Clinical)</h2>
+        <form action="/predict_heart_disease" method="post">
+            <label>Age: <input type="number" name="age" required></label><br>
+            <label>Sex (0=female, 1=male): <input type="number" name="sex" required></label><br>
+            <label>Chest Pain Type (cp): <input type="number" name="cp" required></label><br>
+            <label>Resting Blood Pressure (trestbps): <input type="number" name="trestbps" required></label><br>
+            <label>Serum Cholestoral (chol): <input type="number" name="chol" required></label><br>
+            <label>Fasting Blood Sugar > 120 mg/dl (fbs) (0=false, 1=true): <input type="number" name="fbs" required></label><br>
+            <label>Resting Electrocardiographic Results (restecg): <input type="number" name="restecg" required></label><br>
+            <label>Maximum Heart Rate Achieved (thalach): <input type="number" name="thalach" required></label><br>
+            <label>Exercise Induced Angina (exang) (0=no, 1=yes): <input type="number" name="exang" required></label><br>
+            <label>ST depression induced by exercise relative to rest (oldpeak): <input type="number" name="oldpeak" step="0.1" required></label><br>
+            <label>Slope of the peak exercise ST segment (slope): <input type="number" name="slope" required></label><br>
+            <label>Number of major vessels colored by flourosopy (ca): <input type="number" name="ca" required></label><br>
+            <label>Thal (3=normal, 6=fixed defect, 7=reversable defect): <input type="number" name="thal" required></label><br>
+            <button type="submit">Predict Heart Disease Presence</button>
+        </form>
+        {% if prediction_heart_disease %}
+            <div class="prediction">Result: {{ prediction_heart_disease }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
