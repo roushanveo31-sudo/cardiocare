@@ -4,95 +4,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Disease Prediction</title>
+    <title>Heart Health Hub</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Heart Disease Prediction Models</h1>
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1 class="display-4">Heart Health Hub</h1>
+            <p class="lead">Your personal tool for understanding cardiovascular risk.</p>
+        </div>
 
-    <!-- Model 1: Cardiovascular Disease -->
-    <div class="model-section">
-        <h2>Model 1: General Cardiovascular Disease</h2>
-        <form action="/predict_cardio" method="post">
-            <label>Age (years): <input type="number" name="age" required></label><br>
-            <label>Gender (1=female, 2=male): <input type="number" name="gender" required></label><br>
-            <label>Height (cm): <input type="number" name="height" required></label><br>
-            <label>Weight (kg): <input type="number" name="weight" step="0.1" required></label><br>
-            <label>Systolic Blood Pressure (ap_hi): <input type="number" name="ap_hi" required></label><br>
-            <label>Diastolic Blood Pressure (ap_lo): <input type="number" name="ap_lo" required></label><br>
-            <label>Cholesterol (1: normal, 2: above normal, 3: well above normal): <input type="number" name="cholesterol" required></label><br>
-            <label>Glucose (1: normal, 2: above normal, 3: well above normal): <input type="number" name="gluc" required></label><br>
-            <label>Smoker (0=no, 1=yes): <input type="number" name="smoke" required></label><br>
-            <label>Alcohol Intake (0=no, 1=yes): <input type="number" name="alco" required></label><br>
-            <label>Active (0=no, 1=yes): <input type="number" name="active" required></label><br>
-            <button type="submit">Predict Cardiovascular Disease</button>
-        </form>
-        {% if prediction_cardio %}
-            <div class="prediction">Result: {{ prediction_cardio }}</div>
-        {% endif %}
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs" id="modelTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="cardio-tab" data-bs-toggle="tab" data-bs-target="#cardio" type="button" role="tab" aria-controls="cardio" aria-selected="true">Cardiovascular Disease</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="heart-attack-tab" data-bs-toggle="tab" data-bs-target="#heart-attack" type="button" role="tab" aria-controls="heart-attack" aria-selected="false">Heart Attack Risk</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="heart-disease-tab" data-bs-toggle="tab" data-bs-target="#heart-disease" type="button" role="tab" aria-controls="heart-disease" aria-selected="false">Heart Disease Diagnosis</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="modelTabsContent">
+            <!-- Cardiovascular Disease Tab -->
+            <div class="tab-pane fade show active" id="cardio" role="tabpanel" aria-labelledby="cardio-tab">
+                <div class="p-4 border rounded-bottom">
+                    <h3 class="mb-3">General Cardiovascular Disease Risk</h3>
+                    <form action="/predict_cardio" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="age" class="form-label">Age (years)</label>
+                                <input type="number" class="form-control" name="age" id="age" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label">Gender (1=Female, 2=Male)</label>
+                                <input type="number" class="form-control" name="gender" id="gender" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input type="number" class="form-control" name="height" id="height" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-control" name="weight" id="weight" step="0.1" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="ap_hi" class="form-label">Systolic Blood Pressure</label>
+                                <input type="number" class="form-control" name="ap_hi" id="ap_hi" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="ap_lo" class="form-label">Diastolic Blood Pressure</label>
+                                <input type="number" class="form-control" name="ap_lo" id="ap_lo" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cholesterol" class="form-label">Cholesterol (1-3)</label>
+                                <input type="number" class="form-control" name="cholesterol" id="cholesterol" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gluc" class="form-label">Glucose (1-3)</label>
+                                <input type="number" class="form-control" name="gluc" id="gluc" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="smoke" class="form-label">Smoker (0=No, 1=Yes)</label>
+                                <input type="number" class="form-control" name="smoke" id="smoke" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="alco" class="form-label">Alcohol (0=No, 1=Yes)</label>
+                                <input type="number" class="form-control" name="alco" id="alco" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="active" class="form-label">Active (0=No, 1=Yes)</label>
+                                <input type="number" class="form-control" name="active" id="active" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Calculate Risk</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Heart Attack Risk Tab -->
+            <div class="tab-pane fade" id="heart-attack" role="tabpanel" aria-labelledby="heart-attack-tab">
+                <div class="p-4 border rounded-bottom">
+                    <h3 class="mb-3">Heart Attack Risk Assessment</h3>
+                    <form action="/predict_heart_attack" method="post">
+                        <div class="row">
+                            <!-- All 23 fields for the heart attack model will go here, structured in a responsive grid -->
+                            <div class="col-md-4 mb-3"><label class="form-label">Age</label><input type="number" class="form-control" name="Age" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Gender</label><select class="form-select" name="Gender" required><option value="Male">Male</option><option value="Female">Female</option></select></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Diabetes (0/1)</label><input type="number" class="form-control" name="Diabetes" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Hypertension (0/1)</label><input type="number" class="form-control" name="Hypertension" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Obesity (0/1)</label><input type="number" class="form-control" name="Obesity" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Smoking (0/1)</label><input type="number" class="form-control" name="Smoking" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Alcohol (0/1)</label><input type="number" class="form-control" name="Alcohol_Consumption" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Physical Activity</label><input type="number" class="form-control" name="Physical_Activity" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Diet Score (1-10)</label><input type="number" class="form-control" name="Diet_Score" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Cholesterol</label><input type="number" class="form-control" name="Cholesterol_Level" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Triglycerides</label><input type="number" class="form-control" name="Triglyceride_Level" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">LDL</label><input type="number" class="form-control" name="LDL_Level" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">HDL</label><input type="number" class="form-control" name="HDL_Level" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Systolic BP</label><input type="number" class="form-control" name="Systolic_BP" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Diastolic BP</label><input type="number" class="form-control" name="Diastolic_BP" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Air Pollution</label><input type="number" class="form-control" name="Air_Pollution_Exposure" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Family History (0/1)</label><input type="number" class="form-control" name="Family_History" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Stress (1-10)</label><input type="number" class="form-control" name="Stress_Level" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Healthcare Access (0/1)</label><input type="number" class="form-control" name="Healthcare_Access" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Heart Attack History (0/1)</label><input type="number" class="form-control" name="Heart_Attack_History" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Response Time</label><input type="number" class="form-control" name="Emergency_Response_Time" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Annual Income</label><input type="number" class="form-control" name="Annual_Income" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Health Insurance (0/1)</label><input type="number" class="form-control" name="Health_Insurance" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Calculate Risk</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Heart Disease Diagnosis Tab -->
+            <div class="tab-pane fade" id="heart-disease" role="tabpanel" aria-labelledby="heart-disease-tab">
+                <div class="p-4 border rounded-bottom">
+                    <h3 class="mb-3">Clinical Heart Disease Diagnosis Aid</h3>
+                     <form action="/predict_heart_disease" method="post">
+                        <div class="row">
+                            <div class="col-md-4 mb-3"><label class="form-label">Age</label><input type="number" class="form-control" name="age" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Sex (0=F, 1=M)</label><input type="number" class="form-control" name="sex" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Chest Pain Type</label><input type="number" class="form-control" name="cp" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Resting BP</label><input type="number" class="form-control" name="trestbps" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Cholesterol</label><input type="number" class="form-control" name="chol" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Fasting BS > 120 (0/1)</label><input type="number" class="form-control" name="fbs" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Resting ECG</label><input type="number" class="form-control" name="restecg" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Max Heart Rate</label><input type="number" class="form-control" name="thalach" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Exercise Angina (0/1)</label><input type="number" class="form-control" name="exang" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Oldpeak</label><input type="number" class="form-control" name="oldpeak" step="0.1" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Slope</label><input type="number" class="form-control" name="slope" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Major Vessels (ca)</label><input type="number" class="form-control" name="ca" required></div>
+                            <div class="col-md-4 mb-3"><label class="form-label">Thal</label><input type="number" class="form-control" name="thal" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Analyze Data</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prediction Result Modal -->
+        <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultModalLabel">Prediction Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Content will be injected by JavaScript -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Model 2: Heart Attack Risk -->
-    <div class="model-section">
-        <h2>Model 2: Heart Attack Risk (India)</h2>
-        <form action="/predict_heart_attack" method="post">
-            <label>Age: <input type="number" name="Age" required></label><br>
-            <label>Gender:
-                <select name="Gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </label><br>
-            <label>Diabetes (0=no, 1=yes): <input type="number" name="Diabetes" required></label><br>
-            <label>Hypertension (0=no, 1=yes): <input type="number" name="Hypertension" required></label><br>
-            <label>Obesity (0=no, 1=yes): <input type="number" name="Obesity" required></label><br>
-            <label>Smoking (0=no, 1=yes): <input type="number" name="Smoking" required></label><br>
-            <label>Alcohol Consumption (0=no, 1=yes): <input type="number" name="Alcohol_Consumption" required></label><br>
-            <label>Physical Activity (days/week): <input type="number" name="Physical_Activity" required></label><br>
-            <label>Diet Score (1-10): <input type="number" name="Diet_Score" required></label><br>
-            <label>Cholesterol Level: <input type="number" name="Cholesterol_Level" required></label><br>
-            <label>Triglyceride Level: <input type="number" name="Triglyceride_Level" required></label><br>
-            <label>LDL Level: <input type="number" name="LDL_Level" required></label><br>
-            <label>HDL Level: <input type="number" name="HDL_Level" required></label><br>
-            <label>Systolic BP: <input type="number" name="Systolic_BP" required></label><br>
-            <label>Diastolic BP: <input type="number" name="Diastolic_BP" required></label><br>
-            <label>Air Pollution Exposure: <input type="number" name="Air_Pollution_Exposure" required></label><br>
-            <label>Family History (0=no, 1=yes): <input type="number" name="Family_History" required></label><br>
-            <label>Stress Level (1-10): <input type="number" name="Stress_Level" required></label><br>
-            <label>Healthcare Access (0=no, 1=yes): <input type="number" name="Healthcare_Access" required></label><br>
-            <label>Heart Attack History (0=no, 1=yes): <input type="number" name="Heart_Attack_History" required></label><br>
-            <label>Emergency Response Time (mins): <input type="number" name="Emergency_Response_Time" required></label><br>
-            <label>Annual Income: <input type="number" name="Annual_Income" required></label><br>
-            <label>Health Insurance (0=no, 1=yes): <input type="number" name="Health_Insurance" required></label><br>
-            <button type="submit">Predict Heart Attack Risk</button>
-        </form>
-        {% if prediction_heart_attack %}
-            <div class="prediction">Result: {{ prediction_heart_attack }}</div>
-        {% endif %}
-    </div>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Model 3: Heart Disease Diagnosis -->
-    <div class="model-section">
-        <h2>Model 3: Heart Disease Diagnosis (Clinical)</h2>
-        <form action="/predict_heart_disease" method="post">
-            <label>Age: <input type="number" name="age" required></label><br>
-            <label>Sex (0=female, 1=male): <input type="number" name="sex" required></label><br>
-            <label>Chest Pain Type (cp): <input type="number" name="cp" required></label><br>
-            <label>Resting Blood Pressure (trestbps): <input type="number" name="trestbps" required></label><br>
-            <label>Serum Cholestoral (chol): <input type="number" name="chol" required></label><br>
-            <label>Fasting Blood Sugar > 120 mg/dl (fbs) (0=false, 1=true): <input type="number" name="fbs" required></label><br>
-            <label>Resting Electrocardiographic Results (restecg): <input type="number" name="restecg" required></label><br>
-            <label>Maximum Heart Rate Achieved (thalach): <input type="number" name="thalach" required></label><br>
-            <label>Exercise Induced Angina (exang) (0=no, 1=yes): <input type="number" name="exang" required></label><br>
-            <label>ST depression induced by exercise relative to rest (oldpeak): <input type="number" name="oldpeak" step="0.1" required></label><br>
-            <label>Slope of the peak exercise ST segment (slope): <input type="number" name="slope" required></label><br>
-            <label>Number of major vessels colored by flourosopy (ca): <input type="number" name="ca" required></label><br>
-            <label>Thal (3=normal, 6=fixed defect, 7=reversable defect): <input type="number" name="thal" required></label><br>
-            <button type="submit">Predict Heart Disease Presence</button>
-        </form>
-        {% if prediction_heart_disease %}
-            <div class="prediction">Result: {{ prediction_heart_disease }}</div>
-        {% endif %}
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Activate the correct tab if the server indicates one should be active
+            const activeTabId = '{{ active_tab }}';
+            if (activeTabId) {
+                const tabButton = document.querySelector(`#${activeTabId}-tab`);
+                if (tabButton) {
+                    const tab = new bootstrap.Tab(tabButton);
+                    tab.show();
+                }
+            }
+
+            // Show the modal with the prediction report if it exists
+            const predictionReport = {{ prediction_report|tojson|safe }};
+            if (predictionReport && Object.keys(predictionReport).length > 0) {
+                const modalBody = document.querySelector('#resultModal .modal-body');
+                const modalTitle = document.querySelector('#resultModal .modal-title');
+
+                if (predictionReport.error) {
+                    modalTitle.textContent = 'Error';
+                    modalBody.innerHTML = `<p class="text-danger">${predictionReport.error}</p>`;
+                } else {
+                    modalTitle.textContent = predictionReport.title;
+                    modalBody.innerHTML = \`
+                        <div class="text-center">
+                            <h3>Risk Score</h3>
+                            <p class="display-4 fw-bold \${predictionReport.risk_percentage.split('.')[0] > 50 ? 'text-danger' : 'text-success'}">
+                                \${predictionReport.risk_percentage}
+                            </p>
+                        </div>
+                        <hr>
+                        <h5>Interpretation</h5>
+                        <p>\${predictionReport.interpretation}</p>
+                        <h5>General Suggestions</h5>
+                        <ul>
+                            \${predictionReport.suggestions.map(s => `<li>\${s}</li>`).join('')}
+                        </ul>
+                        <hr>
+                        <p class="text-muted small"><em>\${predictionReport.disclaimer}</em></p>
+                    \`;
+                }
+
+                const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+                resultModal.show();
+            }
+        });
+    </script>
 </body>
 </html>
